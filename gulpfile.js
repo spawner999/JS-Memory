@@ -73,4 +73,4 @@ gulp.task('serve', function() {
 gulp.task('default', ['serve']);
 
 //npm install command
-//npm install --save-dev browserify vinyl-source-stream gulp-concat gulp-uglify del gulp-sass gulp-postcss autoprefixer gulp-sourcemaps gulp-jshint lost
+//npm install --save-dev browserify vinyl-source-stream jshint gulp gulp-concat gulp-uglify del gulp-sass gulp-postcss autoprefixer gulp-sourcemaps gulp-jshint lost
