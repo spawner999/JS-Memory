@@ -9,7 +9,8 @@ postcss = require('gulp-postcss'),
 sass = require('gulp-sass'),
 sourcemaps = require('gulp-sourcemaps'),
 autoprefixer = require('autoprefixer'),
-lost = require('lost');
+lost = require('lost'),
+browserSync = require('browser-sync').create();
 
 gulp.task('jshint', function(){
   return gulp.src(['js/*.js'])
@@ -38,12 +39,15 @@ gulp.task("minifyScripts", ["jsBrowserify"], function(){
 
 
 gulp.task("clean", ["minifyScripts"], function(){
+  console.log('done');
+  browserSync.reload();
   return del(['tmp']);
 });
 
 gulp.task('styles', function () {
   var processors = [ autoprefixer, lost
   ];
+  browserSync.reload();
   return gulp.src('scss/*.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(sourcemaps.init())
@@ -52,10 +56,18 @@ gulp.task('styles', function () {
     .pipe(gulp.dest('./build/css'));
 });
 
-gulp.task("watch", function(){
-	console.log("Watching js files for modifications");
-	gulp.watch('js/*.js', ["clean"]);
+gulp.task('serve', function() {
+  browserSync.init({
+    server: {
+      baseDir: "./",
+      index: "index.html"
+    }
+  });
+
+  console.log("Watching js and scss files for modifications");
+  gulp.watch('js/*.js', ["clean"]);
   gulp.watch('scss/*.scss', ["styles"]);
 });
 
-gulp.task('default', ['watch']);
+
+gulp.task('default', ['serve']);
